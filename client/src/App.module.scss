@@ -16,18 +16,20 @@
 .sidebar {
     padding: 16px 24px;
     background-color: #ffffff;
-    width: 100px;
+    width: fit-content;
     border-right: 1px solid #d0d7de;
     width: 350px;
     box-sizing: border-box;
     color: rgb(36, 41, 47);
     overflow-y: scroll;
     font-size: 14px;
+    flex-shrink: 0;
 }
 
 .content {
     background-color: #f6f8fa;
-    // width: 100%;
+    width: 100%;
+    padding: 16px 24px;
 }
 
 .playerCard {
@@ -46,6 +48,7 @@
     color: rgb(36, 41, 47);
     width: 30px;
     margin-right: 14px;
+    text-align: center;
 }
 
 .positionBadge {
@@ -57,10 +60,11 @@
     font-size: 11.5px;
     width: fit-content;
     padding: 3px 4px;
-    width: 50px;
+    width: 52px;
     display: flex;
     justify-content: center;
     margin-left: 10px;
+    flex-shrink: 0;
 
     &.WR {
         background-color: #85de9e;
@@ -89,6 +93,7 @@
 
 .name {
     color: rgb(36, 41, 47);
+    overflow-x: hidden;
 }
 
 .team {
@@ -97,4 +102,21 @@
 
 .playerInfo {
     width: 100%;
+}
+
+.image {
+    height: 100%;
+    position: relative;
+    left: -10%;
+    top: 8%;
+}
+
+.imageContainer {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+    border: 1px solid rgba(27, 31, 36, 0.15);
+    background-color: #d0d7de;
 }

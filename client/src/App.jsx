@@ -8,6 +8,17 @@ import classNames from "classnames";
 
 import styles from "./App.module.scss";
 
+const getPlayerImage = (name) => {
+    const path = `/images/${name
+        .toLowerCase()
+        ?.replaceAll(".", "")
+        ?.replaceAll("'", "")
+        ?.split(" ")
+        .join("-")}.png`;
+
+    return path;
+};
+
 function App() {
     const [rankings, setRankings] = useState(null);
 
@@ -37,6 +48,15 @@ function App() {
                                 <div className={styles.rank}>
                                     {overallRank}.
                                 </div>
+                                {/* <div className={styles.imageContainer}>
+                                    {
+                                        <img
+                                            className={styles.image}
+                                            src={getPlayerImage(name)}
+                                        />
+                                    }
+                                </div> */}
+
                                 <div className={styles.playerInfo}>
                                     <div className={styles.name}>{name}</div>
                                     <div className={styles.team}>{team}</div>
