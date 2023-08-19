@@ -3,6 +3,8 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
+import _ from "lodash";
+
 import axios from "axios";
 import classNames from "classnames";
 
@@ -19,8 +21,45 @@ const getPlayerImage = (name) => {
     return path;
 };
 
+const getSnakeDraftPicks = () => {
+    const myPick = 8;
+    const rounds = 18;
+    const teamCount = 12;
+    const pickAdj = teamCount - myPick;
+
+    const picks = [];
+
+    _.times(rounds, (round) => {
+        const roundNumber = round + 1;
+        const isEvenRound = roundNumber % 2 === 0;
+        const isFirstRound = roundNumber === 1;
+
+        if (isFirstRound) {
+            picks.push(myPick);
+            return;
+        }
+
+        if (isEvenRound) {
+            const lastPick = picks.at(-1);
+
+            picks.push(lastPick + (2 * pickAdj + 1));
+        } else {
+            const lastPick = picks.at(-1);
+
+            picks.push(lastPick + (2 * (teamCount - pickAdj) - 1));
+        }
+    });
+
+    console.log(picks);
+    return picks;
+};
+
+const checkIfMyPick = (pick) => getSnakeDraftPicks().includes(pick);
+
 function App() {
     const [rankings, setRankings] = useState(null);
+
+    getSnakeDraftPicks();
 
     useEffect(() => {
         async function fetchData() {
@@ -35,20 +74,63 @@ function App() {
 
     if (rankings === null) return <div>Loading...</div>;
 
+    const getNumberSuffix = (number) => {
+        switch (number) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    };
+
     return (
         <div>
             <div className={styles.header}>Header</div>
             <div className={styles.main}>
                 <div className={styles.sidebar}>
-                    {rankings.map(({ name, ranks, position, team }) => {
-                        const { overall: overallRank, position: positionRank } =
-                            ranks;
-                        return (
-                            <div className={styles.playerCard}>
-                                <div className={styles.rank}>
-                                    {overallRank}.
-                                </div>
-                                {/* <div className={styles.imageContainer}>
+                    {rankings
+                        .filter(({ isKeeper }) => !isKeeper)
+                        .map(
+                            (
+                                { name, ranks, position, team, isKeeper },
+                                index
+                            ) => {
+                                const {
+                                    overall: overallRank,
+                                    position: positionRank,
+                                } = ranks;
+
+                                const isMyPick = checkIfMyPick(index + 1);
+
+                                return (
+                                    <>
+                                        {isMyPick && (
+                                            <div className={styles.divider}>
+                                                <div
+                                                    className={styles.nextPick}
+                                                >
+                                                    {Math.ceil(
+                                                        (index + 1) / 12
+                                                    )}
+                                                    {getNumberSuffix(
+                                                        Math.ceil(
+                                                            (index + 1) / 12
+                                                        )
+                                                    )}{" "}
+                                                    {"  "}
+                                                    Round Pick
+                                                </div>
+                                            </div>
+                                        )}
+                                        <div className={styles.playerCard}>
+                                            <div className={styles.rank}>
+                                                {overallRank}.
+                                            </div>
+                                            {/* <div className={styles.imageContainer}>
                                     {
                                         <img
                                             className={styles.image}
@@ -57,24 +139,36 @@ function App() {
                                     }
                                 </div> */}
 
-                                <div className={styles.playerInfo}>
-                                    <div className={styles.name}>{name}</div>
-                                    <div className={styles.team}>{team}</div>
-                                </div>
-                                <div
-                                    className={classNames(
-                                        styles.positionBadge,
-                                        styles[position]
-                                    )}
-                                >
-                                    {position}
-                                    {positionRank}
-                                </div>
-                            </div>
-                        );
-                    })}
+                                            <div className={styles.playerInfo}>
+                                                <div className={styles.name}>
+                                                    {name}
+                                                </div>
+                                                <div className={styles.team}>
+                                                    {team}
+                                                </div>
+                                            </div>
+                                            <div
+                                                className={classNames(
+                                                    styles.positionBadge,
+                                                    styles[position]
+                                                )}
+                                            >
+                                                {position}
+                                                {positionRank}
+                                            </div>
+                                        </div>
+                                    </>
+                                );
+                            }
+                        )}
                 </div>
-                <div className={styles.content}>Content</div>
+                <div className={styles.content}>
+                    <div
+                        className={classNames(styles.playerCard, styles.light)}
+                    >
+                        123
+                    </div>
+                </div>
             </div>
         </div>
 

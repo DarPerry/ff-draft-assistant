@@ -1,5 +1,7 @@
 import { stripLetters, stripNumbers } from "../util/stripText.js";
 
+const keepers = ["Cooper Kupp", "DJ Moore", "Deebo Samuel", "Tony Pollard"];
+
 const PlayerRanking = (playerRank) => {
     /*
    "AVG": {
@@ -9,9 +11,10 @@ const PlayerRanking = (playerRank) => {
 
     const adpAdjustment = Number(playerRank["ECR VS"][" ADP"].replace("+", ""));
     const overallRank = Number(playerRank["RK"]);
+    const playerName = playerRank["PLAYER NAME"];
 
     return {
-        name: playerRank["PLAYER NAME"],
+        name: playerName,
         position: stripNumbers(playerRank["POS"]),
         team: playerRank["TEAM"],
         ranks: {
@@ -22,6 +25,7 @@ const PlayerRanking = (playerRank) => {
         strengthOfSchedule: parseFloat(playerRank["STRENGTH OF SCHEDULE "]),
         tier: Number(playerRank["TIERS"]),
         adp: overallRank + adpAdjustment,
+        isKeeper: false,
     };
 };
 
