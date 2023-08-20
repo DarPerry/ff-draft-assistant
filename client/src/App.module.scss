@@ -14,7 +14,6 @@
 }
 
 .sidebar {
-    padding: 16px 24px;
     background-color: #ffffff;
     width: fit-content;
     border-right: 1px solid #d0d7de;
@@ -24,6 +23,7 @@
     overflow-y: scroll;
     font-size: 14px;
     flex-shrink: 0;
+    position: relative;
 }
 
 .content {
@@ -133,6 +133,16 @@
     position: relative;
     display: flex;
     justify-content: center;
+    color: #0969da;
+}
+
+.divider2 {
+    border-bottom: 2px solid #1f883d;
+    margin: 16px 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    color: #1f883d;
 }
 
 .nextPick {
@@ -142,5 +152,133 @@
     border-radius: 4px;
     padding: 0 4px;
     font-weight: 600;
-    color: #0969da;
+}
+
+.badge {
+    width: 60px;
+    height: 80px;
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.potentialNumberOneIcon {
+    color: gold;
+}
+
+.potentialTopTwelveIcon {
+    color: silver;
+}
+
+.icons {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.filter {
+    // position: fixed;
+    width: 350px;
+    display: flex;
+    border-bottom: 1px solid #d0d7de;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 12px 5px;
+}
+
+.players {
+    padding: 16px 24px;
+}
+
+.positionFilterOption {
+    width: 50px;
+    border-radius: 3px;
+    font-size: 12px;
+    border: solid 2px #13284a;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    color: #13284a;
+    margin: 3px 10px;
+
+    &.active {
+        background-color: #13284a;
+        color: white;
+    }
+
+    &.QB {
+        border-color: #c8a1ff;
+        color: #c8a1ff;
+
+        &.active {
+            background-color: #c8a1ff;
+            color: white;
+        }
+    }
+
+    &.RB {
+        border-color: #83dcef;
+        color: #83dcef;
+
+        &.active {
+            background-color: #83dcef;
+            color: white;
+        }
+    }
+
+    &.WR {
+        border-color: #85de9e;
+        color: #85de9e;
+
+        &.active {
+            background-color: #85de9e;
+            color: white;
+        }
+    }
+
+    &.TE {
+        border-color: #ff8aa2;
+        color: #ff8aa2;
+
+        &.active {
+            background-color: #ff8aa2;
+            color: white;
+        }
+    }
+
+    &.K {
+        border-color: #fdb97c;
+        color: #fdb97c;
+
+        &.active {
+            background-color: #fdb97c;
+            color: white;
+        }
+    }
+
+    &.DST {
+        border-color: #bdc3cd;
+        color: #bdc3cd;
+
+        &.active {
+            background-color: #bdc3cd;
+            color: white;
+        }
+    }
+
+    &.FLEX {
+        border-color: #adc1ba;
+        color: #adc1ba;
+
+        &.active {
+            background-color: #adc1ba;
+            color: white;
+        }
+    }
+}
+
+.lovedPlayer {
+    color: #ff78ae;
 }

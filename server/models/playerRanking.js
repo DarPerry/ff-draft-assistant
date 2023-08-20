@@ -1,6 +1,114 @@
 import { stripLetters, stripNumbers } from "../util/stripText.js";
 
 const keepers = ["Cooper Kupp", "DJ Moore", "Deebo Samuel", "Tony Pollard"];
+const potentialWrOnes = [
+    "Justin Jefferson",
+    "Ja'Marr Chase",
+    "CeeDee Lamb",
+    "A.J. Brown",
+    "Amon-Ra St. Brown",
+    "DK Metcalf",
+];
+
+const potentialRbOnes = [
+    "Bijan Robinson",
+    "Jonathan Taylor",
+    "Josh Jacobs",
+    "Rhamondre Stevenson",
+    "Breece Hall",
+];
+
+const potentialTopTwelveTes = [
+    "Travis Kelce",
+    "Mark Andrews",
+    "T.J. Hockenson",
+    "George Kittle",
+    "Kyle Pitts",
+    "Dallas Goedert",
+    "Darren Waller",
+    "Evan Engram",
+    "Pat Freiermuth",
+    "David Njoku",
+    "Dalton Schultz",
+    "Tyler Higbee",
+];
+
+const potentialTopTwelveRbs = [
+    "Bijan Robinson",
+    "Saquon Barkley",
+    "Rhamondre Stevenson",
+    "Breece Hall",
+    "Najee Harris",
+    "Travis Etienne Jr.",
+    "Dameon Pierce",
+    "Rachaad White",
+    "Javonte Williams",
+    "Brian Robinson Jr.",
+];
+
+const potentialTopTwelveWrs = [
+    "Tee Higgins",
+    "DK Metcalf",
+    "Deebo Samuel",
+    "Drake London",
+    "DJ Moore",
+    "Christian Watson",
+    "Michael Pittman Jr.",
+    "George Pickens",
+    "Rashod Bateman",
+    "Quentin Johnston",
+];
+
+const potentialPositionNumberOnes = [...potentialRbOnes, ...potentialWrOnes];
+const potentialPositionTopTwelve = [
+    ...potentialTopTwelveRbs,
+    ...potentialTopTwelveTes,
+    ...potentialTopTwelveWrs,
+];
+
+const LovedPlayer = (name, ...lovedBy) => {
+    return {
+        name,
+        lovedBy,
+    };
+};
+
+const lovedPlayers = [
+    LovedPlayer("Chris Olave", "Mike Wright"),
+    LovedPlayer("Mark Andrews", "Jason Moore"),
+    LovedPlayer("Joe Mixon", "Andy Holloway", "Hayden Winks"),
+    LovedPlayer("Jahmyr Gibbs", "Andy Holloway"),
+    LovedPlayer("Justin Fields", "Jason Moore"),
+    LovedPlayer("Justin Hernert", "Jason Moore"),
+    LovedPlayer("Tyler Lockett", "Mike Wright"),
+    LovedPlayer("Darren Waller", "Mike Wright"),
+    LovedPlayer("Alexander Mattison", "Mike Wright"),
+    LovedPlayer("James Cook", "Andy Holloway"),
+    LovedPlayer("Jahan Dotson", "Andy Holloway"),
+    LovedPlayer("Mike Evans", "Andy Holloway"),
+    LovedPlayer("Jordan Addison", "Jason Moore", "Hayden Winks"),
+    LovedPlayer("Justin Jefferson", "Hayden Winks"),
+    LovedPlayer("Saquan Barkley", "Hayden Winks"),
+    LovedPlayer("Van Jefferson", "Hayden Winks"),
+    LovedPlayer("Jalen Hurts", "Hayden Winks"),
+    LovedPlayer("David Montgomery", "Hayden Winks"),
+    LovedPlayer("Gus Edwards", "Hayden Winks"),
+    LovedPlayer("Isaiah Hodgins", "Hayden Winks"),
+    LovedPlayer("Ezekiel Elliott", "Hayden Winks"),
+    LovedPlayer("Dameon Pierce", "Hayden Winks"),
+    LovedPlayer("Zach Charbonnet", "Hayden Winks"),
+    LovedPlayer("Jamaal Williams", "Hayden Winks"),
+    LovedPlayer("Tyler Allgeier", "Hayden Winks"),
+    LovedPlayer("Clyde Edwards-Helaire", "Hayden Winks"),
+    LovedPlayer("Diontae Johnson", "Hayden Winks"),
+    LovedPlayer("JuJu Smith-Schuster", "Hayden Winks"),
+    LovedPlayer("Zay Flowers", "FF Footballers"),
+    LovedPlayer("Jaylen Warren", "Pat Kerrane"),
+    LovedPlayer("Marvin Mims Jr.", "Pat Kerrane"),
+    LovedPlayer("Michael Mayern", "Pat Kerrane"),
+    LovedPlayer("Breece Hall", "Pat Kerrane"),
+    LovedPlayer("Jaxon Smith-Njigba", "Pat Kerrane"),
+];
 
 const PlayerRanking = (playerRank) => {
     /*
@@ -26,6 +134,11 @@ const PlayerRanking = (playerRank) => {
         tier: Number(playerRank["TIERS"]),
         adp: overallRank + adpAdjustment,
         isKeeper: false,
+        potentialPositionNumberOne:
+            potentialPositionNumberOnes.includes(playerName),
+        potentialPositionTopTwelve:
+            potentialPositionTopTwelve.includes(playerName),
+        isLoved: lovedPlayers.some(({ name }) => name === playerName),
     };
 };
 

@@ -58,6 +58,7 @@ const checkIfMyPick = (pick) => getSnakeDraftPicks().includes(pick);
 
 function App() {
     const [rankings, setRankings] = useState(null);
+    const [positionFilter, setPositionFilter] = useState("ALL");
 
     getSnakeDraftPicks();
 
@@ -71,6 +72,8 @@ function App() {
         }
         fetchData();
     }, []); // Or [] if effect doesn't need props or state
+
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     if (rankings === null) return <div>Loading...</div>;
 
@@ -92,13 +95,46 @@ function App() {
             <div className={styles.header}>Header</div>
             <div className={styles.main}>
                 <div className={styles.sidebar}>
-                    {rankings
-                        .filter(({ isKeeper }) => !isKeeper)
-                        .map(
-                            (
-                                { name, ranks, position, team, isKeeper },
-                                index
-                            ) => {
+                    <div className={styles.filter}>
+                        {[
+                            "ALL",
+                            "QB",
+                            "RB",
+                            "WR",
+                            "TE",
+                            "FLEX",
+                            "K",
+                            "DST",
+                        ].map((position) => {
+                            return (
+                                <div
+                                    className={classNames(
+                                        styles.positionFilterOption,
+                                        styles[position],
+                                        positionFilter === position &&
+                                            styles.active
+                                    )}
+                                    onClick={() => setPositionFilter(position)}
+                                >
+                                    {position}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className={styles.players}>
+                        {rankings
+                            .filter(({ isKeeper }) => !isKeeper)
+                            .map((player, index) => {
+                                const {
+                                    name,
+                                    ranks,
+                                    position,
+                                    team,
+                                    potentialPositionNumberOne,
+                                    potentialPositionTopTwelve,
+                                    isLoved,
+                                } = player;
+
                                 const {
                                     overall: overallRank,
                                     position: positionRank,
@@ -126,11 +162,31 @@ function App() {
                                                 </div>
                                             </div>
                                         )}
-                                        <div className={styles.playerCard}>
-                                            <div className={styles.rank}>
-                                                {overallRank}.
+                                        {/* {index % 12 === 0 && (
+                                            <div className={styles.divider2}>
+                                                <div
+                                                    className={styles.nextPick}
+                                                >
+                                                    Start of Round {index + 1}
+                                                </div>
                                             </div>
-                                            {/* <div className={styles.imageContainer}>
+                                        )} */}
+                                        {(positionFilter === "ALL" ||
+                                            (positionFilter === "FLEX" &&
+                                                ["RB", "WR", "TE"].includes(
+                                                    position
+                                                )) ||
+                                            position === positionFilter) && (
+                                            <div
+                                                className={styles.playerCard}
+                                                onClick={() => {
+                                                    setSelectedPlayer(player);
+                                                }}
+                                            >
+                                                <div className={styles.rank}>
+                                                    {overallRank}.
+                                                </div>
+                                                {/* <div className={styles.imageContainer}>
                                     {
                                         <img
                                             className={styles.image}
@@ -139,34 +195,76 @@ function App() {
                                     }
                                 </div> */}
 
-                                            <div className={styles.playerInfo}>
-                                                <div className={styles.name}>
-                                                    {name}
+                                                <div
+                                                    className={
+                                                        styles.playerInfo
+                                                    }
+                                                >
+                                                    <div
+                                                        className={styles.name}
+                                                    >
+                                                        {name}
+                                                    </div>
+                                                    <div
+                                                        className={styles.team}
+                                                    >
+                                                        {team}
+                                                    </div>
                                                 </div>
-                                                <div className={styles.team}>
-                                                    {team}
+                                                <div className={styles.icons}>
+                                                    {potentialPositionNumberOne && (
+                                                        <i
+                                                            className={classNames(
+                                                                "fa-kit fa-solid-square-1-circle-question",
+                                                                styles.potentialNumberOneIcon
+                                                            )}
+                                                        />
+                                                    )}
+                                                    {potentialPositionTopTwelve && (
+                                                        <i
+                                                            className={classNames(
+                                                                "fa-kit fa-solid-star-circle-question",
+                                                                styles.potentialTopTwelveIcon
+                                                            )}
+                                                        />
+                                                    )}
+                                                    {isLoved && (
+                                                        <i
+                                                            className={classNames(
+                                                                "fa-solid fa-heart",
+                                                                styles.lovedPlayer
+                                                            )}
+                                                        ></i>
+                                                    )}
+                                                </div>
+
+                                                <div
+                                                    className={classNames(
+                                                        styles.positionBadge,
+                                                        styles[position]
+                                                    )}
+                                                >
+                                                    {position}
+                                                    {positionRank}
                                                 </div>
                                             </div>
-                                            <div
-                                                className={classNames(
-                                                    styles.positionBadge,
-                                                    styles[position]
-                                                )}
-                                            >
-                                                {position}
-                                                {positionRank}
-                                            </div>
-                                        </div>
+                                        )}
                                     </>
                                 );
-                            }
-                        )}
+                            })}
+                    </div>
                 </div>
                 <div className={styles.content}>
                     <div
                         className={classNames(styles.playerCard, styles.light)}
                     >
-                        123
+                        {selectedPlayer?.name}
+                        {selectedPlayer?.potentialPositionNumberOne && (
+                            <div className={styles.badge}>
+                                <div></div>
+                                <div>Potential Position #1</div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
