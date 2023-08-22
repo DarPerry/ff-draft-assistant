@@ -9,6 +9,7 @@ import axios from "axios";
 import classNames from "classnames";
 
 import styles from "./App.module.scss";
+import PlayerCard from "./components/PlayerCard/PlayerCard";
 
 const getPlayerImage = (name) => {
     const path = `/images/${name
@@ -135,15 +136,20 @@ function App() {
                                     isLoved,
                                 } = player;
 
-                                const {
-                                    overall: overallRank,
-                                    position: positionRank,
-                                } = ranks;
-
                                 const isMyPick = checkIfMyPick(index + 1);
+                                // const [showDraftButton, setShowDraftButton] = useState(false);
 
                                 return (
                                     <>
+                                        {index === 0 && (
+                                            <div className={styles.divider2}>
+                                                <div
+                                                    className={styles.nextPick}
+                                                >
+                                                    Start of Draft
+                                                </div>
+                                            </div>
+                                        )}
                                         {isMyPick && (
                                             <div className={styles.divider}>
                                                 <div
@@ -162,92 +168,30 @@ function App() {
                                                 </div>
                                             </div>
                                         )}
-                                        {/* {index % 12 === 0 && (
+                                        {index % 12 === 0 && (
                                             <div className={styles.divider2}>
                                                 <div
                                                     className={styles.nextPick}
                                                 >
-                                                    Start of Round {index + 1}
+                                                    Start of Round{" "}
+                                                    {Math.ceil(
+                                                        (index + 1) / 12
+                                                    )}
                                                 </div>
                                             </div>
-                                        )} */}
+                                        )}
                                         {(positionFilter === "ALL" ||
                                             (positionFilter === "FLEX" &&
                                                 ["RB", "WR", "TE"].includes(
                                                     position
                                                 )) ||
                                             position === positionFilter) && (
-                                            <div
-                                                className={styles.playerCard}
-                                                onClick={() => {
-                                                    setSelectedPlayer(player);
-                                                }}
-                                            >
-                                                <div className={styles.rank}>
-                                                    {overallRank}.
-                                                </div>
-                                                {/* <div className={styles.imageContainer}>
-                                    {
-                                        <img
-                                            className={styles.image}
-                                            src={getPlayerImage(name)}
-                                        />
-                                    }
-                                </div> */}
-
-                                                <div
-                                                    className={
-                                                        styles.playerInfo
-                                                    }
-                                                >
-                                                    <div
-                                                        className={styles.name}
-                                                    >
-                                                        {name}
-                                                    </div>
-                                                    <div
-                                                        className={styles.team}
-                                                    >
-                                                        {team}
-                                                    </div>
-                                                </div>
-                                                <div className={styles.icons}>
-                                                    {potentialPositionNumberOne && (
-                                                        <i
-                                                            className={classNames(
-                                                                "fa-kit fa-solid-square-1-circle-question",
-                                                                styles.potentialNumberOneIcon
-                                                            )}
-                                                        />
-                                                    )}
-                                                    {potentialPositionTopTwelve && (
-                                                        <i
-                                                            className={classNames(
-                                                                "fa-kit fa-solid-star-circle-question",
-                                                                styles.potentialTopTwelveIcon
-                                                            )}
-                                                        />
-                                                    )}
-                                                    {isLoved && (
-                                                        <i
-                                                            className={classNames(
-                                                                "fa-solid fa-heart",
-                                                                styles.lovedPlayer
-                                                            )}
-                                                        ></i>
-                                                    )}
-                                                </div>
-
-                                                <div
-                                                    className={classNames(
-                                                        styles.positionBadge,
-                                                        styles[position]
-                                                    )}
-                                                >
-                                                    {position}
-                                                    {positionRank}
-                                                </div>
-                                            </div>
+                                            <PlayerCard
+                                                player={player}
+                                                setSelectedPlayer={
+                                                    setSelectedPlayer
+                                                }
+                                            />
                                         )}
                                     </>
                                 );

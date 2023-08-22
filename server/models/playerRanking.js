@@ -102,16 +102,16 @@ const LovedPlayer = (name, ...lovedBy) => {
 };
 
 const lovedPlayers = [
-    LovedPlayer("Chris Olave", "Mike Wright"),
+    LovedPlayer("Chris Olave", "Mike Wright", "Jason Moore"),
     LovedPlayer("Mark Andrews", "Jason Moore"),
     LovedPlayer("Joe Mixon", "Andy Holloway", "Hayden Winks"),
     LovedPlayer("Jahmyr Gibbs", "Andy Holloway"),
     LovedPlayer("Justin Fields", "Jason Moore"),
-    LovedPlayer("Justin Hernert", "Jason Moore"),
+    LovedPlayer("Justin Herbert", "Jason Moore"),
     LovedPlayer("Tyler Lockett", "Mike Wright"),
     LovedPlayer("Darren Waller", "Mike Wright"),
     LovedPlayer("Alexander Mattison", "Mike Wright"),
-    LovedPlayer("James Cook", "Andy Holloway"),
+    LovedPlayer("James Cook", "Andy Holloway", "Rich Hribar"),
     LovedPlayer("Jahan Dotson", "Andy Holloway"),
     LovedPlayer("Mike Evans", "Andy Holloway"),
     LovedPlayer("Jordan Addison", "Jason Moore", "Hayden Winks"),
@@ -130,13 +130,90 @@ const lovedPlayers = [
     LovedPlayer("Clyde Edwards-Helaire", "Hayden Winks"),
     LovedPlayer("Diontae Johnson", "Hayden Winks"),
     LovedPlayer("JuJu Smith-Schuster", "Hayden Winks"),
-    LovedPlayer("Zay Flowers", "FF Footballers"),
+    LovedPlayer("Zay Flowers", "Mike Wright"),
     LovedPlayer("Jaylen Warren", "Pat Kerrane"),
     LovedPlayer("Marvin Mims Jr.", "Pat Kerrane"),
     LovedPlayer("Michael Mayern", "Pat Kerrane"),
     LovedPlayer("Breece Hall", "Pat Kerrane"),
-    LovedPlayer("Jaxon Smith-Njigba", "Pat Kerrane"),
+    LovedPlayer("Terry McLaurin", "Jason Moore"),
+    LovedPlayer("J.K. Dobbins", "Mike Wright"),
+    LovedPlayer("Deebo Samuel", "Andy Holloway"),
+    LovedPlayer("Tony Pollard", "Rich Hribar"),
+    LovedPlayer("Brandin Cooks", "Rich Hribar"),
+    LovedPlayer("Rashaad Penny", "Rich Hribar"),
+    LovedPlayer("Geno Smith", "Rich Hribar"),
 ];
+
+const topRbsFromOpportunity = [
+    "Christian McCaffrey",
+    "Saquon Barkley",
+    "Nick Chubb",
+    "Jonathan Taylor",
+    "Tony Pollard",
+    "Derrick Henry",
+    "Rhamondre Stevenson",
+    "Breece Hall",
+    "Joe Mixon",
+    "Aaron Jones",
+    "James Conner",
+    "Rachaad White",
+];
+
+const campHypePlayers = [
+    "Deuce Vaughn",
+    "Calvin Ridley",
+    "Tank Bigsby",
+    "Romeo Doubs",
+    "Justyn Ross",
+    "Puka Nacua",
+];
+
+const samUpsidePlayers = [
+    "Jordan Love",
+    "Van Jefferson",
+    "Taysom Hill",
+    "Zamir White",
+    "Tony Pollard",
+    "Miles Sanders",
+    "Amari Cooper",
+    "Christian Watson",
+    "Jerry Jeudy",
+    "Jahan Dotson",
+    "George Pickens",
+    "Rashaad Penny",
+    "Khalil Herbert",
+    "Michael Thomas",
+];
+
+const goalLineBacks = [
+    "Ezekiel Elliott",
+    "Austin Ekeler",
+    "Derrick Henry",
+    "Cam Akers",
+];
+
+const efficientRunners = [
+    "Christian McCaffrey",
+    "Austin Ekeler",
+    "Nick Chubb",
+    "Jonathan Taylor",
+    "Tony Pollard",
+    "Derrick Henry",
+    "Aaron Jones",
+    "Miles Sanders",
+    "Dalvin Cook",
+    "Raheem Mostert",
+    "Damien Harris",
+];
+
+const rookieTes = [
+    "Michael Mayer",
+    "Dalton Kincaid",
+    "Sam LaPorta",
+    "Luke Musgrave",
+];
+
+const playersOffDraftBoard = [...rookieTes];
 
 const PlayerRanking = (playerRank) => {
     /*
@@ -161,12 +238,18 @@ const PlayerRanking = (playerRank) => {
         strengthOfSchedule: parseFloat(playerRank["STRENGTH OF SCHEDULE "]),
         tier: Number(playerRank["TIERS"]),
         adp: overallRank + adpAdjustment,
-        isKeeper: false,
+        isKeeper: keepers.includes(playerName),
         potentialPositionNumberOne:
             potentialPositionNumberOnes.includes(playerName),
         potentialPositionTopTwelve:
             potentialPositionTopTwelve.includes(playerName),
         isLoved: lovedPlayers.some(({ name }) => name === playerName),
+        hasTopRbOpportunity: topRbsFromOpportunity.includes(playerName),
+        hasCampHype: campHypePlayers.includes(playerName),
+        hasSamUpside: samUpsidePlayers.includes(playerName),
+        isGoalLineBack: goalLineBacks.includes(playerName),
+        isEfficientRunner: efficientRunners.includes(playerName),
+        isOffDraftBoard: playersOffDraftBoard.includes(playerName),
     };
 };
 
