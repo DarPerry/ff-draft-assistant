@@ -24,7 +24,7 @@ const PickCounter = ({ currentPick }) => {
                 <div>
                     In{" "}
                     <span className={styles.picksUntilNext}>
-                        {Math.abs(myNextPickForRound - currentPick) + 1}
+                        {Math.abs(myNextPickForRound - currentPick)}
                     </span>{" "}
                     Picks
                 </div>

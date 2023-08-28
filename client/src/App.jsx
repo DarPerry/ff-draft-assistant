@@ -18,7 +18,7 @@ const tiersToShow = {
 };
 
 function App() {
-    const [currentPick, setCurrentPick] = useState(24);
+    const [currentPick, setCurrentPick] = useState(1);
     const [rankings, setRankings] = useState(null);
     const [positionFilter, setPositionFilter] = useState("ALL");
     const [enabledPositions, setEnabledPositions] = useState({
@@ -41,6 +41,8 @@ function App() {
         }
         fetchData();
     }, []);
+
+    const goToNextPick = () => setCurrentPick(currentPick + 1);
 
     if (rankings === null) return <div>Loading...</div>;
 
@@ -103,7 +105,12 @@ function App() {
                                             position
                                         )) ||
                                     position === positionFilter) && (
-                                    <PlayerCard player={player} />
+                                    <PlayerCard
+                                        player={player}
+                                        goToNextPick={goToNextPick}
+                                        currentPick={currentPick}
+                                        setCurrentPick={setCurrentPick}
+                                    />
                                 )}
                             </>
                         );

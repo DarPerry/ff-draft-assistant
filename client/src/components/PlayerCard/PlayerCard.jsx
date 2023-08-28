@@ -4,10 +4,12 @@ import classNames from "classnames";
 
 import styles from "./PlayerCard.module.scss";
 
-import { iconMap } from "../../helpers/test";
+import { iconMap } from "../../helpers/fontAwesome";
 import teamColors from "../../styles/teamColors";
 
-const PlayerCard = ({ player }) => {
+const transitionDuration = 750;
+
+const PlayerCard = ({ player, goToNextPick }) => {
     const [timerId, setTimerId] = useState(null);
     const [removing, setRemoving] = useState(false);
     const [showPlayer, setShowPlayer] = useState(true);
@@ -16,6 +18,23 @@ const PlayerCard = ({ player }) => {
     const { overall: overallRank, position: positionRank } = ranks;
 
     const [firstName, ...restOfName] = name.split(" ");
+
+    const iconsPlayerHas = Object.entries(iconMap).filter(
+        ([condition, { icon, morale }]) => {
+            if (player[condition]) return true;
+        }
+    );
+
+    const iconCount = iconsPlayerHas.length;
+    const goodIconCount = iconsPlayerHas.filter(
+        ([condition, { icon, morale }]) => {
+            if (morale === "good") return true;
+        }
+    ).length;
+
+    const goodIconCountPercentage = Math.round(
+        (goodIconCount / iconCount) * 100
+    );
 
     if (!showPlayer) return null;
 
@@ -30,7 +49,7 @@ const PlayerCard = ({ player }) => {
                 //after 2 seconds do this
                 const timer = setTimeout(() => {
                     setShowPlayer(false);
-                }, 2000);
+                }, transitionDuration);
 
                 setTimerId(timer);
             }}
@@ -45,6 +64,9 @@ const PlayerCard = ({ player }) => {
                     styles.removeProgress,
                     removing && styles.removing
                 )}
+                style={{
+                    transitionDuration: `${transitionDuration}ms`,
+                }}
             >
                 <i className="fa-solid fa-xmark" />
             </div>
@@ -69,30 +91,49 @@ const PlayerCard = ({ player }) => {
                     <div className={styles.name}>{restOfName.join(" ")}</div>
                 </div>
                 <div className={styles.right}>
-                    Circle Comp
                     <div className={styles.icons}>
-                        {Object.entries(iconMap).map(([condition, icon]) => {
-                            if (player[condition])
-                                return (
-                                    <i
-                                        className={classNames(
-                                            icon,
-                                            styles[condition]
-                                        )}
-                                    />
-                                );
-                        })}
-                    </div>
-
-                    <div
-                        className={classNames(
-                            styles.positionBadge,
-                            styles[position]
+                        {Object.entries(iconMap).map(
+                            ([condition, { icon, morale }]) => {
+                                if (player[condition])
+                                    return (
+                                        <i
+                                            className={classNames(
+                                                icon,
+                                                styles[condition]
+                                            )}
+                                        />
+                                    );
+                            }
                         )}
-                    >
-                        {position}
-                        {positionRank}
                     </div>
+                    {position ? (
+                        <div
+                            className={classNames(
+                                styles.positionBadge,
+                                styles[position]
+                            )}
+                        >
+                            {position}
+                            {positionRank}
+                        </div>
+                    ) : (
+                        <>
+                            {iconCount ? (
+                                <div
+                                    className={styles.progressBar}
+                                    style={{
+                                        background: `radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(green ${
+                                            goodIconCountPercentage
+                                                ? `${goodIconCountPercentage}%`
+                                                : 0
+                                        }, red 0)`,
+                                    }}
+                                >
+                                    {goodIconCount}/{iconCount}
+                                </div>
+                            ) : null}
+                        </>
+                    )}
                 </div>
             </div>
         </div>
