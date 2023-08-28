@@ -10,9 +10,18 @@ import { getPlayerRankingsJsonFromCsv } from "./services/parserService.js";
 const app = express();
 
 app.get("/rankings", cors(), async ({ query }, res) => {
-    const playerRankingsJson = await getPlayerRankingsJsonFromCsv();
+    const positions = ["OVR", "QB", "RB", "WR", "TE", "K", "DST"];
+    const allRankings = await Promise.all(
+        positions.map(getPlayerRankingsJsonFromCsv)
+    );
 
-    return res.send(playerRankingsJson.map(PlayerRanking));
+    return res.send(
+        positions.reduce((rankingsByPosition, position, index) => {
+            rankingsByPosition[position] = allRankings[index];
+
+            return rankingsByPosition;
+        }, {})
+    );
 });
 
 app.listen(PORT, () => {

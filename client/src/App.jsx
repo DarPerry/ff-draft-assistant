@@ -1,241 +1,155 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-
 import _ from "lodash";
-
 import axios from "axios";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 
+import "./App.css";
 import styles from "./App.module.scss";
+
 import PlayerCard from "./components/PlayerCard/PlayerCard";
 
-const getPlayerImage = (name) => {
-    const path = `/images/${name
-        .toLowerCase()
-        ?.replaceAll(".", "")
-        ?.replaceAll("'", "")
-        ?.split(" ")
-        .join("-")}.png`;
-
-    return path;
+const tiersToShow = {
+    QB: 5,
+    WR: 10,
+    TE: 5,
+    K: 3,
+    DST: 3,
 };
-
-const getSnakeDraftPicks = () => {
-    const myPick = 8;
-    const rounds = 18;
-    const teamCount = 12;
-    const pickAdj = teamCount - myPick;
-
-    const picks = [];
-
-    _.times(rounds, (round) => {
-        const roundNumber = round + 1;
-        const isEvenRound = roundNumber % 2 === 0;
-        const isFirstRound = roundNumber === 1;
-
-        if (isFirstRound) {
-            picks.push(myPick);
-            return;
-        }
-
-        if (isEvenRound) {
-            const lastPick = picks.at(-1);
-
-            picks.push(lastPick + (2 * pickAdj + 1));
-        } else {
-            const lastPick = picks.at(-1);
-
-            picks.push(lastPick + (2 * (teamCount - pickAdj) - 1));
-        }
-    });
-
-    console.log(picks);
-    return picks;
-};
-
-const checkIfMyPick = (pick) => getSnakeDraftPicks().includes(pick);
 
 function App() {
     const [rankings, setRankings] = useState(null);
     const [positionFilter, setPositionFilter] = useState("ALL");
+    const [enabledPositions, setEnabledPositions] = useState({
+        OVR: true,
+        QB: true,
+        RB: true,
+        WR: true,
+        TE: true,
+        K: true,
+        DST: true,
+    });
 
-    getSnakeDraftPicks();
+    const positions = ["QB", "RB", "WR", "TE", "K", "DST"];
 
     useEffect(() => {
         async function fetchData() {
-            // You can await here
             const { data } = await axios.get("http://localhost:3170/rankings");
 
-            console.log("response", data);
             setRankings(data);
         }
         fetchData();
-    }, []); // Or [] if effect doesn't need props or state
-
-    const [selectedPlayer, setSelectedPlayer] = useState(null);
+    }, []);
 
     if (rankings === null) return <div>Loading...</div>;
 
-    const getNumberSuffix = (number) => {
-        switch (number) {
-            case 1:
-                return "st";
-            case 2:
-                return "nd";
-            case 3:
-                return "rd";
-            default:
-                return "th";
-        }
+    const PositionBoard = ({ position }) => {
+        const filteredPositionPlayers = rankings[position];
+
+        return (
+            <div className={styles.sidebar}>
+                <div className={styles.players}>
+                    {filteredPositionPlayers.map((player, index) => {
+                        const {
+                            name,
+                            ranks,
+                            team,
+                            potentialPositionNumberOne,
+                            potentialPositionTopTwelve,
+                            isLoved,
+                            tier,
+                            ...rest
+                        } = player;
+
+                        // const [showDraftButton, setShowDraftButton] = useState(false);
+
+                        const showTierBreak =
+                            index === 0 ||
+                            tier !== filteredPositionPlayers[index - 1].tier;
+
+                        if (
+                            tiersToShow[position] &&
+                            tier > tiersToShow[position]
+                        )
+                            return null;
+
+                        if (position === "WR") {
+                            console.log(
+                                name,
+                                "tier",
+                                tier,
+                                "previousPlayerTier",
+                                rankings[position][index - 1]?.tier,
+                                "==>",
+
+                                tier !== rankings[position][index - 1]?.tier
+                            );
+                        }
+
+                        return (
+                            <>
+                                {showTierBreak && (
+                                    <div className={styles.divider2}>
+                                        <div className={styles.nextPick}>
+                                            Tier {tier}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {(positionFilter === "ALL" ||
+                                    (positionFilter === "FLEX" &&
+                                        ["RB", "WR", "TE"].includes(
+                                            position
+                                        )) ||
+                                    position === positionFilter) && (
+                                    <PlayerCard player={player} />
+                                )}
+                            </>
+                        );
+                    })}
+                </div>
+            </div>
+        );
     };
 
     return (
         <div>
-            <div className={styles.header}>Header</div>
-            <div className={styles.main}>
-                <div className={styles.sidebar}>
-                    <div className={styles.filter}>
-                        {[
-                            "ALL",
-                            "QB",
-                            "RB",
-                            "WR",
-                            "TE",
-                            "FLEX",
-                            "K",
-                            "DST",
-                        ].map((position) => {
+            <div className={styles.header}>
+                Show Board For:
+                <div className={styles.filter}>
+                    {["ALL", "QB", "RB", "WR", "TE", "K", "DST"].map(
+                        (position) => {
                             return (
                                 <div
                                     className={classNames(
                                         styles.positionFilterOption,
                                         styles[position],
-                                        positionFilter === position &&
+                                        enabledPositions[position] &&
                                             styles.active
                                     )}
-                                    onClick={() => setPositionFilter(position)}
+                                    onClick={() =>
+                                        setEnabledPositions({
+                                            ...enabledPositions,
+                                            [position]:
+                                                !enabledPositions[position],
+                                        })
+                                    }
                                 >
                                     {position}
                                 </div>
                             );
-                        })}
-                    </div>
-                    <div className={styles.players}>
-                        {rankings
-                            .filter(({ isKeeper }) => !isKeeper)
-                            .map((player, index) => {
-                                const {
-                                    name,
-                                    ranks,
-                                    position,
-                                    team,
-                                    potentialPositionNumberOne,
-                                    potentialPositionTopTwelve,
-                                    isLoved,
-                                } = player;
-
-                                const isMyPick = checkIfMyPick(index + 1);
-                                // const [showDraftButton, setShowDraftButton] = useState(false);
-
-                                return (
-                                    <>
-                                        {index === 0 && (
-                                            <div className={styles.divider2}>
-                                                <div
-                                                    className={styles.nextPick}
-                                                >
-                                                    Start of Draft
-                                                </div>
-                                            </div>
-                                        )}
-                                        {isMyPick && (
-                                            <div className={styles.divider}>
-                                                <div
-                                                    className={styles.nextPick}
-                                                >
-                                                    {Math.ceil(
-                                                        (index + 1) / 12
-                                                    )}
-                                                    {getNumberSuffix(
-                                                        Math.ceil(
-                                                            (index + 1) / 12
-                                                        )
-                                                    )}{" "}
-                                                    {"  "}
-                                                    Round Pick
-                                                </div>
-                                            </div>
-                                        )}
-                                        {index % 12 === 0 && (
-                                            <div className={styles.divider2}>
-                                                <div
-                                                    className={styles.nextPick}
-                                                >
-                                                    Start of Round{" "}
-                                                    {Math.ceil(
-                                                        (index + 1) / 12
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
-                                        {(positionFilter === "ALL" ||
-                                            (positionFilter === "FLEX" &&
-                                                ["RB", "WR", "TE"].includes(
-                                                    position
-                                                )) ||
-                                            position === positionFilter) && (
-                                            <PlayerCard
-                                                player={player}
-                                                setSelectedPlayer={
-                                                    setSelectedPlayer
-                                                }
-                                            />
-                                        )}
-                                    </>
-                                );
-                            })}
-                    </div>
-                </div>
-                <div className={styles.content}>
-                    <div
-                        className={classNames(styles.playerCard, styles.light)}
-                    >
-                        {selectedPlayer?.name}
-                        {selectedPlayer?.potentialPositionNumberOne && (
-                            <div className={styles.badge}>
-                                <div></div>
-                                <div>Potential Position #1</div>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                        }
+                    )}
+                </div>{" "}
+            </div>
+            <div className={styles.main}>
+                <PositionBoard position={"OVR"} />
+                {positions
+                    .filter((p) => enabledPositions[p])
+                    .map((position) => (
+                        <PositionBoard key={position} position={position} />
+                    ))}
             </div>
         </div>
-
-        // <>
-        //   <div>
-        //     <a href="https://vitejs.dev" target="_blank">
-        //       <img src={viteLogo} className="logo" alt="Vite logo" />
-        //     </a>
-        //     <a href="https://react.dev" target="_blank">
-        //       <img src={reactLogo} className="logo react" alt="React logo" />
-        //     </a>
-        //   </div>
-        //   <h1>Vite + React</h1>
-        //   <div className="card">
-        //     <button onClick={() => setCount((count) => count + 1)}>
-        //       count is {count}
-        //     </button>
-        //     <p>
-        //       Edit <code>src/App.jsx</code> and save to test HMR
-        //     </p>
-        //   </div>
-        //   <p className="read-the-docs">
-        //     Click on the Vite and React logos to learn more
-        //   </p>
-        // </>
     );
 }
 

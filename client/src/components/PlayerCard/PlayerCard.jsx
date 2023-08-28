@@ -3,7 +3,7 @@ import classNames from "classnames";
 import styles from "./PlayerCard.module.scss";
 import { useState } from "react";
 
-const PlayerCard = ({ player, setSelectedPlayer }) => {
+const PlayerCard = ({ player }) => {
     const [showDraftButton, setShowDraftButton] = useState(false);
     const [removing, setRemoving] = useState(false);
 
@@ -163,6 +163,18 @@ const PlayerCard = ({ player, setSelectedPlayer }) => {
         hasSamUpside: "fa-solid fa-rocket-launch",
         isGoalLineBack: "fa-solid fa-crow",
         isEfficientRunner: "fa-solid fa-person-running-fast",
+        isPotentialBust: "fa-solid fa-thumbs-down",
+        isLeapYearCandidate: "fa-solid fa-frog",
+        hasNegativeSamUpside: "fa-regular fa-arrow-trend-down",
+        isFirstRoundRbOrWr: "fa-solid fa-baby",
+        hasRookieQb: "fa-solid fa-person-breastfeeding",
+        hasNegativeCampBuzz: "fa-solid fa-poop",
+        hasLowRyoeAndLowEpa: "fa-solid fa-traffic-cone",
+        isFightingToStart: "fa-solid fa-bench-tree",
+        isMainlySlotPlayer: "fa-solid fa-slot-machine",
+        isNotGoalLineBack: "fa-solid fa-stomach",
+        projectedNegativeRegression: "fa-solid fa-arrow-down",
+        isValuableHandcuff: "fa-solid fa-handcuffs",
     };
 
     const [timerId, setTimerId] = useState(null);
@@ -174,16 +186,12 @@ const PlayerCard = ({ player, setSelectedPlayer }) => {
     return (
         <div
             className={classNames(styles.playerCard)}
-            onClick={() => {
-                setSelectedPlayer(player);
-            }}
             onMouseEnter={() => setShowDraftButton(true)}
             onMouseLeave={() => setShowDraftButton(false)}
             onMouseDown={(e) => {
                 setRemoving(true);
                 //after 2 seconds do this
                 const timer = setTimeout(() => {
-                    console.log("removing");
                     setShowPlayer(false);
                 }, 2000);
 

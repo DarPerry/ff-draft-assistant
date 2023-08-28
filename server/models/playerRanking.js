@@ -166,7 +166,12 @@ const campHypePlayers = [
     "Romeo Doubs",
     "Justyn Ross",
     "Puka Nacua",
+    "Darren Waller",
+    "Kenny Pickett",
+    "Jayden Reed",
 ];
+
+const isValuableHandcuff = ["Tank Bigsby", "Jaylen Warren"];
 
 const samUpsidePlayers = [
     "Jordan Love",
@@ -213,7 +218,124 @@ const rookieTes = [
     "Luke Musgrave",
 ];
 
-const playersOffDraftBoard = [...rookieTes];
+const potentialBusts = ["JK Dobbins", "Travis Etienne Jr.", "DeAndre Hopkins"];
+
+const landminePlayers = [
+    "Bijan Robinson",
+    "Jonathan Taylor",
+    "Najee Harris",
+    "Chris Olave",
+    "Jahmyr Gibbs",
+    "Aaron Jones",
+    "Evan Engram",
+    "Quentin Johnston",
+    "De'Von Achane",
+    "Jameson Williams",
+    "Greg Dulcich",
+    "Darnell Mooney",
+    "Mike Evans",
+];
+
+const hasNegativeSamUpside = [
+    "Kirk Cousins",
+    "Joe Mixon",
+    "Travis Ettiene Jr.",
+    "Deebo Samuel",
+    "Dameon Pierce",
+    "Rachaad White",
+    "Dalvin Cook",
+    "Daniel Jones",
+];
+
+const playersOffDraftBoard = [];
+
+const isLeapYearCandidate = [
+    "Justin Fields",
+    "Kenny Pickett",
+    "Jordan Love",
+    "Sam Howell",
+    "Desmond Ridder",
+    "Trey Lance",
+    "Mac Jones",
+];
+
+// 1st Round Rookie RBs finish as RB6 on average
+// 1st Round Rookie WR has finished top 24 in 11 straight years
+
+const firstRoundRbOrWr = [
+    "Bijan Robinson",
+    "Jahmyr Gibbs",
+    "Zay Flowers",
+    "Quentin Johnston",
+    "Jaxon Smith-Njigba",
+    "Jordan Addison",
+];
+
+const recieversWithRookieQbs = [
+    "Hayden Hurst",
+    "Jelani Woods",
+    "Dalton Schultz",
+    "Nico Collins",
+    "DJ Chark Jr.",
+    "Adam Thielen",
+    "Michael Pittman Jr.",
+    "Jonathan Mingo",
+    "Alec Pierce",
+    "John Metchie III",
+    "Robert Woods",
+    "Terrace Marshall Jr.",
+    "Josh Downs",
+    "Tank Dell",
+    "Isaiah McKenize",
+    "Laviska Shenault Jr.",
+];
+
+const lowRyoeAndLowEpaPlayers = [
+    "David Montgomery",
+    "Alvin Kamara",
+    "Antonio Gibson",
+    "Leonard Fournette",
+    "Najee Harris",
+    "Joe Mixon",
+    "Cam Akers",
+];
+
+const isFightingToStart = [
+    "Jaxon Smith-Njigba",
+    "Quentin Johnston",
+    "Greg Dulcich",
+];
+
+const mainlySlotPlayers = ["Rondale Moore", "Christian Kirk"];
+
+const negativeCampBuzz = ["Deshaun Watson"];
+
+const isNotGoalLineBack = ["Kenneth Walker III", "Rhamondre Stevenson"];
+
+const playerNotes = {
+    "Geno Smith": { good: ["3 Great WRs & Most accurate QB last season"] },
+    "Najee Harris": { good: ["Jaylen Warren is a threat"] },
+    "JK Dobbins": {
+        bad: [
+            "@DynastyIM - 97% of 15+ PPG RBs Have EITHER 50% Carry % or 10% Target Share he has had neother",
+        ],
+    },
+    "Jerry Jeudy": {
+        good: ["@swainmcfarland - 23% TS & 30 % Air yard share when healthy"],
+    },
+    "Jordan Addison": {
+        good: ["@HaydenWinks - Replacing Player that is 2nd in routes run"],
+    },
+    "Rashod Bateman": {
+        good: ["@DerekBrown - 11th in Route Win Rate Per Rotounderworld"],
+    },
+};
+
+const projectedNegativeRegression = [
+    "Tua Tagovailoa",
+    "Tyreek Hill",
+    "Jaylen Waddle",
+];
 
 const PlayerRanking = (playerRank) => {
     /*
@@ -250,6 +372,21 @@ const PlayerRanking = (playerRank) => {
         isGoalLineBack: goalLineBacks.includes(playerName),
         isEfficientRunner: efficientRunners.includes(playerName),
         isOffDraftBoard: playersOffDraftBoard.includes(playerName),
+        isPotentialBust: [...potentialBusts, ...landminePlayers].includes(
+            playerName
+        ),
+        isLeapYearCandidate: isLeapYearCandidate.includes(playerName),
+        isFirstRoundRbOrWr: firstRoundRbOrWr.includes(playerName),
+        hasRookieQb: recieversWithRookieQbs.includes(playerName),
+        hasNegativeCampBuzz: negativeCampBuzz.includes(playerName),
+        hasLowRyoeAndLowEpa: lowRyoeAndLowEpaPlayers.includes(playerName),
+        isFightingToStart: isFightingToStart.includes(playerName),
+        isMainlySlotPlayer: mainlySlotPlayers.includes(playerName),
+        isNotGoalLineBack: isNotGoalLineBack.includes(playerName),
+        projectedNegativeRegression:
+            projectedNegativeRegression.includes(playerName),
+        isValuableHandcuff: isValuableHandcuff.includes(playerName),
+        hasNegativeSamUpside: hasNegativeSamUpside.includes(playerName),
     };
 };
 
