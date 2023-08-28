@@ -144,6 +144,13 @@ const lovedPlayers = [
     LovedPlayer("Geno Smith", "Rich Hribar"),
 ];
 
+const myTargets = [
+    "Jakobi Meyers",
+    "Diontae Johnson",
+    "Keenan Allen",
+    "Raheem Mostert",
+];
+
 const topRbsFromOpportunity = [
     "Christian McCaffrey",
     "Saquon Barkley",
@@ -169,6 +176,7 @@ const campHypePlayers = [
     "Darren Waller",
     "Kenny Pickett",
     "Jayden Reed",
+    "Trey Palmer",
 ];
 
 const isValuableHandcuff = ["Tank Bigsby", "Jaylen Warren"];
@@ -247,7 +255,7 @@ const hasNegativeSamUpside = [
     "Daniel Jones",
 ];
 
-const playersOffDraftBoard = [];
+const playersOffDraftBoard = [...rookieTes];
 
 const isLeapYearCandidate = [
     "Justin Fields",
@@ -329,6 +337,9 @@ const playerNotes = {
     "Rashod Bateman": {
         good: ["@DerekBrown - 11th in Route Win Rate Per Rotounderworld"],
     },
+    "Javonte Williams": {
+        good: ["Sean Payton has produced top 20 RB 14/15 seasons"],
+    },
 };
 
 const projectedNegativeRegression = [
@@ -371,7 +382,6 @@ const PlayerRanking = (playerRank) => {
         hasSamUpside: samUpsidePlayers.includes(playerName),
         isGoalLineBack: goalLineBacks.includes(playerName),
         isEfficientRunner: efficientRunners.includes(playerName),
-        isOffDraftBoard: playersOffDraftBoard.includes(playerName),
         isPotentialBust: [...potentialBusts, ...landminePlayers].includes(
             playerName
         ),
@@ -387,6 +397,8 @@ const PlayerRanking = (playerRank) => {
             projectedNegativeRegression.includes(playerName),
         isValuableHandcuff: isValuableHandcuff.includes(playerName),
         hasNegativeSamUpside: hasNegativeSamUpside.includes(playerName),
+        myTargets: myTargets.includes(playerName),
+        isOffDraftBoard: playersOffDraftBoard.includes(playerName),
     };
 };
 

@@ -1,0 +1,28 @@
+.pickCounter {
+    background: #31363e;
+    color: white;
+    display: flex;
+    font-size: 12px;
+    font-weight: 600px;
+    padding: 14px;
+    border-left: 1px solid #31363e;
+
+    .currentPickLabel {
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .nextPick {
+        font-size: 10px;
+        font-weight: 400;
+        text-transform: uppercase;
+        border-radius: 6px;
+        background-color: lighten(#31363e, 10%);
+        padding: 9px 13px;
+        margin-left: 20px;
+
+        .picksUntilNext {
+            font-weight: 800;
+        }
+    }
+}

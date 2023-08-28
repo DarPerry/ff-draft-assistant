@@ -7,6 +7,7 @@ import "./App.css";
 import styles from "./App.module.scss";
 
 import PlayerCard from "./components/PlayerCard/PlayerCard";
+import PickCounter from "./components/PickCounter/PickCounter";
 
 const tiersToShow = {
     QB: 5,
@@ -17,6 +18,7 @@ const tiersToShow = {
 };
 
 function App() {
+    const [currentPick, setCurrentPick] = useState(24);
     const [rankings, setRankings] = useState(null);
     const [positionFilter, setPositionFilter] = useState("ALL");
     const [enabledPositions, setEnabledPositions] = useState({
@@ -114,32 +116,35 @@ function App() {
     return (
         <div>
             <div className={styles.header}>
-                Show Board For:
-                <div className={styles.filter}>
-                    {["ALL", "QB", "RB", "WR", "TE", "K", "DST"].map(
-                        (position) => {
-                            return (
-                                <div
-                                    className={classNames(
-                                        styles.positionFilterOption,
-                                        styles[position],
-                                        enabledPositions[position] &&
-                                            styles.active
-                                    )}
-                                    onClick={() =>
-                                        setEnabledPositions({
-                                            ...enabledPositions,
-                                            [position]:
-                                                !enabledPositions[position],
-                                        })
-                                    }
-                                >
-                                    {position}
-                                </div>
-                            );
-                        }
-                    )}
-                </div>{" "}
+                <div>
+                    Show Board For:
+                    <div className={styles.filter}>
+                        {["ALL", "QB", "RB", "WR", "TE", "K", "DST"].map(
+                            (position) => {
+                                return (
+                                    <div
+                                        className={classNames(
+                                            styles.positionFilterOption,
+                                            styles[position],
+                                            enabledPositions[position] &&
+                                                styles.active
+                                        )}
+                                        onClick={() =>
+                                            setEnabledPositions({
+                                                ...enabledPositions,
+                                                [position]:
+                                                    !enabledPositions[position],
+                                            })
+                                        }
+                                    >
+                                        {position}
+                                    </div>
+                                );
+                            }
+                        )}
+                    </div>
+                </div>
+                <PickCounter currentPick={currentPick} />
             </div>
             <div className={styles.main}>
                 <PositionBoard position={"OVR"} />

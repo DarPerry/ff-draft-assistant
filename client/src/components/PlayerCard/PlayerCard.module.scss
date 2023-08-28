@@ -17,6 +17,10 @@
         background-color: white;
         padding: 16px;
     }
+
+    &.faded {
+        opacity: 0.2;
+    }
 }
 
 .rank {
