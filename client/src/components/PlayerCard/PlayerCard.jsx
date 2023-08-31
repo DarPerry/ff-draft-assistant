@@ -9,12 +9,12 @@ import teamColors from "../../styles/teamColors";
 
 const transitionDuration = 750;
 
-const PlayerCard = ({ player, goToNextPick }) => {
+const PlayerCard = ({ player, goToNextPick, showPlayersOffBoard }) => {
     const [timerId, setTimerId] = useState(null);
     const [removing, setRemoving] = useState(false);
     const [showPlayer, setShowPlayer] = useState(true);
 
-    const { name, ranks, position, team, isOffDraftBoard } = player;
+    const { name, ranks, position, team, isOffDraftBoard, isKeeper } = player;
     const { overall: overallRank, position: positionRank } = ranks;
 
     const [firstName, ...restOfName] = name.split(" ");
@@ -31,18 +31,30 @@ const PlayerCard = ({ player, goToNextPick }) => {
             if (morale === "good") return true;
         }
     ).length;
+    const badIconCount = iconsPlayerHas.filter(
+        ([condition, { icon, morale }]) => {
+            if (morale === "bad") return true;
+        }
+    ).length;
+
+    const hasNothingGood = badIconCount > 0 && badIconCount === iconCount;
 
     const goodIconCountPercentage = Math.round(
         (goodIconCount / iconCount) * 100
     );
 
-    if (!showPlayer) return null;
+    if (
+        isKeeper ||
+        !showPlayer ||
+        (showPlayersOffBoard && (isOffDraftBoard || hasNothingGood))
+    )
+        return null;
 
     return (
         <div
             className={classNames(
                 styles.playerCard,
-                isOffDraftBoard && styles.faded
+                (isOffDraftBoard || hasNothingGood) && styles.faded
             )}
             onMouseDown={() => {
                 setRemoving(true);
@@ -93,7 +105,7 @@ const PlayerCard = ({ player, goToNextPick }) => {
                 <div className={styles.right}>
                     <div className={styles.icons}>
                         {Object.entries(iconMap).map(
-                            ([condition, { icon, morale }]) => {
+                            ([condition, { icon, morale, color }]) => {
                                 if (player[condition])
                                     return (
                                         <i
@@ -101,6 +113,9 @@ const PlayerCard = ({ player, goToNextPick }) => {
                                                 icon,
                                                 styles[condition]
                                             )}
+                                            style={{
+                                                color,
+                                            }}
                                         />
                                     );
                             }

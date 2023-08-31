@@ -48,6 +48,7 @@ export const iconMap = {
     isFirstRoundRbOrWr: {
         icon: "fa-solid fa-baby",
         morale: "good",
+        color: "babyblue",
     },
     hasRookieQb: {
         icon: "fa-solid fa-person-breastfeeding",
@@ -56,10 +57,12 @@ export const iconMap = {
     hasNegativeCampBuzz: {
         icon: "fa-solid fa-poop",
         morale: "bad",
+        color: "#7b5c00",
     },
     hasLowRyoeAndLowEpa: {
         icon: "fa-solid fa-traffic-cone",
         morale: "bad",
+        color: "#ff6700",
     },
     isFightingToStart: {
         icon: "fa-solid fa-bench-tree",

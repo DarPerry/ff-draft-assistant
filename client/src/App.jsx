@@ -12,15 +12,17 @@ import PickCounter from "./components/PickCounter/PickCounter";
 const tiersToShow = {
     QB: 5,
     WR: 10,
-    TE: 5,
-    K: 3,
+    TE: 4,
+    K: 2,
     DST: 3,
+    RB: 7,
 };
 
 function App() {
     const [currentPick, setCurrentPick] = useState(1);
     const [rankings, setRankings] = useState(null);
     const [positionFilter, setPositionFilter] = useState("ALL");
+    const [showPlayersOffBoard, setShowPlayersOffBoard] = useState(true);
     const [enabledPositions, setEnabledPositions] = useState({
         OVR: true,
         QB: true,
@@ -110,6 +112,9 @@ function App() {
                                         goToNextPick={goToNextPick}
                                         currentPick={currentPick}
                                         setCurrentPick={setCurrentPick}
+                                        showPlayersOffBoard={
+                                            showPlayersOffBoard
+                                        }
                                     />
                                 )}
                             </>
@@ -150,6 +155,16 @@ function App() {
                             }
                         )}
                     </div>
+                </div>
+                <div>
+                    Show Players Off Board:
+                    <input
+                        type="checkbox"
+                        checked={showPlayersOffBoard}
+                        onChange={() =>
+                            setShowPlayersOffBoard(!showPlayersOffBoard)
+                        }
+                    />
                 </div>
                 <PickCounter currentPick={currentPick} />
             </div>

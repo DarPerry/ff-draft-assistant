@@ -1,7 +1,6 @@
 import { stripLetters, stripNumbers } from "../util/stripText.js";
 
 const keepers = [
-    "Nick Chubb",
     "Cooper Kupp",
     "Patrick Mahomes II",
     "DJ Moore",
@@ -149,7 +148,10 @@ const myTargets = [
     "Diontae Johnson",
     "Keenan Allen",
     "Raheem Mostert",
+    "Breece Hall",
 ];
+
+const playersWithBadPffStats = ["Jared Goff", "Mac Jones", "Ryan Tannehill"];
 
 const topRbsFromOpportunity = [
     "Christian McCaffrey",
@@ -226,7 +228,11 @@ const rookieTes = [
     "Luke Musgrave",
 ];
 
-const potentialBusts = ["JK Dobbins", "Travis Etienne Jr.", "DeAndre Hopkins"];
+const potentialBusts = [
+    "J.K. Dobbins",
+    "Travis Etienne Jr.",
+    "DeAndre Hopkins",
+];
 
 const landminePlayers = [
     "Bijan Robinson",
@@ -254,8 +260,6 @@ const hasNegativeSamUpside = [
     "Dalvin Cook",
     "Daniel Jones",
 ];
-
-const playersOffDraftBoard = [...rookieTes];
 
 const isLeapYearCandidate = [
     "Justin Fields",
@@ -308,6 +312,20 @@ const lowRyoeAndLowEpaPlayers = [
     "Cam Akers",
 ];
 
+const playersImPassingOn = [
+    "Russell Wilson",
+    "Tua Tagovailoa",
+    "Najee Harris",
+    "Marquise Brown",
+    "Kyle Trask",
+    "Jacoby Brissett",
+    "Brock Purdy",
+    "J.K. Dobbins",
+    "Austin Ekeler",
+    "Travis Etienne Jr.",
+    "Kadarius Toney",
+];
+
 const isFightingToStart = [
     "Jaxon Smith-Njigba",
     "Quentin Johnston",
@@ -323,7 +341,7 @@ const isNotGoalLineBack = ["Kenneth Walker III", "Rhamondre Stevenson"];
 const playerNotes = {
     "Geno Smith": { good: ["3 Great WRs & Most accurate QB last season"] },
     "Najee Harris": { good: ["Jaylen Warren is a threat"] },
-    "JK Dobbins": {
+    "J.K. Dobbins": {
         bad: [
             "@DynastyIM - 97% of 15+ PPG RBs Have EITHER 50% Carry % or 10% Target Share he has had neother",
         ],
@@ -346,6 +364,17 @@ const projectedNegativeRegression = [
     "Tua Tagovailoa",
     "Tyreek Hill",
     "Jaylen Waddle",
+];
+
+const playersOffDraftBoard = [
+    ...rookieTes,
+    ...mainlySlotPlayers,
+    ...negativeCampBuzz,
+    ...isFightingToStart,
+    ...recieversWithRookieQbs,
+    ...playersImPassingOn,
+    ...playersWithBadPffStats,
+    // ...hasNegativeSamUpside,
 ];
 
 const PlayerRanking = (playerRank) => {

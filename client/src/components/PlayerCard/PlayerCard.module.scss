@@ -143,11 +143,15 @@
 }
 
 .potentialPositionNumberOne {
-    color: gold;
+    color: #d6af36;
 }
 
 .potentialPositionTopTwelve {
-    color: silver;
+    color: #a7a7ad;
+}
+
+.isLeapYearCandidate {
+    color: #5edd5f;
 }
 
 .icons {
@@ -300,7 +304,7 @@
 }
 
 .isGoalLineBack {
-    color: #825736;
+    color: #434343;
 }
 
 .isEfficientRunner {
@@ -309,6 +313,10 @@
 
 .left {
     display: flex;
+}
+
+.isNotGoalLineBack {
+    color: #ca6d68;
 }
 
 .right {
