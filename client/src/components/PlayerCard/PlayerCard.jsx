@@ -9,7 +9,15 @@ import teamColors from "../../styles/teamColors";
 
 const transitionDuration = 750;
 
-const PlayerCard = ({ player, goToNextPick, showPlayersOffBoard }) => {
+const PlayerCard = ({
+    player,
+    goToNextPick,
+    showPlayersOffBoard,
+    adp,
+    incrementPick,
+    draftMetadata,
+    setDraftMetadata,
+}) => {
     const [timerId, setTimerId] = useState(null);
     const [removing, setRemoving] = useState(false);
     const [showPlayer, setShowPlayer] = useState(true);
@@ -43,24 +51,38 @@ const PlayerCard = ({ player, goToNextPick, showPlayersOffBoard }) => {
         (goodIconCount / iconCount) * 100
     );
 
+    console.log(draftMetadata);
+
+    const { currentPick, draftedPlayers } = draftMetadata;
+
+    const isPlayerDrafted = draftedPlayers.find(
+        (draftedPlayer) => draftedPlayer.name === name
+    );
+
     if (
         isKeeper ||
-        !showPlayer ||
+        isPlayerDrafted ||
         (showPlayersOffBoard && (isOffDraftBoard || hasNothingGood))
     )
         return null;
+
+    const playerValue = (currentPick - adp).toFixed(1);
 
     return (
         <div
             className={classNames(
                 styles.playerCard,
-                (isOffDraftBoard || hasNothingGood) && styles.faded
+                (isOffDraftBoard || hasNothingGood) && styles.faded,
+                playerValue > 0 && styles.hasValue
             )}
             onMouseDown={() => {
                 setRemoving(true);
                 //after 2 seconds do this
                 const timer = setTimeout(() => {
-                    setShowPlayer(false);
+                    setDraftMetadata({
+                        draftedPlayers: [...draftedPlayers, player],
+                        currentPick: currentPick + 1,
+                    });
                 }, transitionDuration);
 
                 setTimerId(timer);
@@ -98,10 +120,13 @@ const PlayerCard = ({ player, goToNextPick, showPlayersOffBoard }) => {
                 </div>
 
                 <div className={styles.playerInfo}>
-                    <div className={styles.team}>{firstName}</div>
-
-                    <div className={styles.name}>{restOfName.join(" ")}</div>
+                    <div className={styles.name}>{name}</div>
+                    <div className={classNames(styles.adpContainer)}>
+                        <div>ADP: {adp}</div>
+                        <div className={styles.value}>Value: {playerValue}</div>
+                    </div>
                 </div>
+
                 <div className={styles.right}>
                     <div className={styles.icons}>
                         {Object.entries(iconMap).map(

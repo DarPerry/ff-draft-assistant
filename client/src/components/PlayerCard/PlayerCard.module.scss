@@ -359,3 +359,22 @@
     justify-content: center;
     align-items: center;
 }
+
+.adpContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 10px;
+    border: solid 2px #d0d7de;
+    border-radius: 6px;
+    width: fit-content;
+    padding: 3px 6px;
+    flex-direction: row;
+}
+
+.hasValue {
+    border-color: #1f883d;
+    border-width: 4px;
+}

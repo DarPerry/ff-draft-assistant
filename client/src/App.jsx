@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import styles from "./App.module.scss";
 
-import PlayerCard from "./components/PlayerCard/PlayerCard";
-import PickCounter from "./components/PickCounter/PickCounter";
+import PlayerCard from "./components/PlayerCard/PlayerCard.jsx";
+import PickCounter from "./components/PickCounter/PickCounter.jsx";
 
 const tiersToShow = {
     QB: 5,
     WR: 10,
-    TE: 4,
+    TE: 3,
     K: 2,
     DST: 3,
     RB: 7,
@@ -21,6 +21,11 @@ const tiersToShow = {
 function App() {
     const [currentPick, setCurrentPick] = useState(1);
     const [rankings, setRankings] = useState(null);
+    const [adpMap, setAdpMap] = useState({});
+    const [draftMetadata, setDraftMetadata] = useState({
+        currentPick: 1,
+        draftedPlayers: [],
+    });
     const [positionFilter, setPositionFilter] = useState("ALL");
     const [showPlayersOffBoard, setShowPlayersOffBoard] = useState(true);
     const [enabledPositions, setEnabledPositions] = useState({
@@ -37,9 +42,15 @@ function App() {
 
     useEffect(() => {
         async function fetchData() {
-            const { data } = await axios.get("http://localhost:3170/rankings");
+            const { data: rankingsData } = await axios.get(
+                "http://localhost:3170/rankings"
+            );
+            const { data: adpData } = await axios.get(
+                "http://localhost:3170/adp"
+            );
 
-            setRankings(data);
+            setAdpMap(adpData);
+            setRankings(rankingsData);
         }
         fetchData();
     }, []);
@@ -48,7 +59,7 @@ function App() {
 
     if (rankings === null) return <div>Loading...</div>;
 
-    const PositionBoard = ({ position }) => {
+    const PositionBoard = ({ position, currentPick, incrementPick }) => {
         const filteredPositionPlayers = rankings[position];
 
         return (
@@ -115,6 +126,11 @@ function App() {
                                         showPlayersOffBoard={
                                             showPlayersOffBoard
                                         }
+                                        adp={adpMap[name]}
+                                        currentPick={currentPick}
+                                        incrementPick={incrementPick}
+                                        draftMetadata={draftMetadata}
+                                        setDraftMetadata={setDraftMetadata}
                                     />
                                 )}
                             </>
@@ -124,6 +140,8 @@ function App() {
             </div>
         );
     };
+
+    const incrementPick = () => setCurrentPick(currentPick + 1);
 
     return (
         <div>
@@ -166,14 +184,22 @@ function App() {
                         }
                     />
                 </div>
-                <PickCounter currentPick={currentPick} />
+                <PickCounter
+                    currentPick={draftMetadata.currentPick}
+                    incrementPick={incrementPick}
+                />
             </div>
             <div className={styles.main}>
-                <PositionBoard position={"OVR"} />
+                {/* <PositionBoard position={"OVR"} /> */}
                 {positions
                     .filter((p) => enabledPositions[p])
                     .map((position) => (
-                        <PositionBoard key={position} position={position} />
+                        <PositionBoard
+                            key={position}
+                            position={position}
+                            currentPick={currentPick}
+                            incrementPick={incrementPick}
+                        />
                     ))}
             </div>
         </div>

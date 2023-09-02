@@ -88,4 +88,8 @@ export const iconMap = {
         icon: "fa-solid fa-bullseye",
         morale: "good",
     },
+    isFantasyFooterballersMvp: {
+        icon: "fa-kit fa-solid-trophy-circle-question",
+        morale: "good",
+    },
 };

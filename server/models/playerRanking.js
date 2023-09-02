@@ -7,7 +7,6 @@ const keepers = [
     "A.J. Brown",
     "Josh Jacobs",
     "Jalen Hurts",
-    "DK Metcalf",
     "Amon-Ra St. Brown",
     "DeVonta Smith",
     "Kenneth Walker III",
@@ -27,6 +26,11 @@ const keepers = [
     "Jared Goff",
     "Khalil Herbert",
     "Deshawn Watson",
+    "Trevor Lawrence",
+    "Drake London",
+    "Dallas Goedert",
+    "Mark Andrews",
+    "Rachaad White",
 ];
 const potentialWrOnes = [
     "Justin Jefferson",
@@ -197,7 +201,6 @@ const samUpsidePlayers = [
     "George Pickens",
     "Rashaad Penny",
     "Khalil Herbert",
-    "Michael Thomas",
 ];
 
 const goalLineBacks = [
@@ -314,6 +317,7 @@ const lowRyoeAndLowEpaPlayers = [
 
 const playersImPassingOn = [
     "Russell Wilson",
+    "Jonathan Taylor",
     "Tua Tagovailoa",
     "Najee Harris",
     "Marquise Brown",
@@ -324,12 +328,33 @@ const playersImPassingOn = [
     "Austin Ekeler",
     "Travis Etienne Jr.",
     "Kadarius Toney",
+    "Evan Engram",
+];
+
+const fantasyFootballersMvps = [
+    "Tony Pollard",
+    "Calvin Ridley",
+    "Jaxon Smith-Njigba",
+    "Justin Herbert",
+    "Lamar Jackson",
+    "Deebo Samuel",
+    "Brandon Aiyuk",
+    "Bijan Robinson",
+    "Zay Flowers",
+    "Jahmyr Gibbs",
 ];
 
 const isFightingToStart = [
     "Jaxon Smith-Njigba",
     "Quentin Johnston",
     "Greg Dulcich",
+];
+
+const draftedOnOtherTeams = [
+    "Geno Smith",
+    "Philadelphia Eagles",
+    "Zach Charbonnet",
+    "Chigoziem Okonkwo",
 ];
 
 const mainlySlotPlayers = ["Rondale Moore", "Christian Kirk"];
@@ -374,6 +399,7 @@ const playersOffDraftBoard = [
     ...recieversWithRookieQbs,
     ...playersImPassingOn,
     ...playersWithBadPffStats,
+    ...draftedOnOtherTeams,
     // ...hasNegativeSamUpside,
 ];
 
@@ -428,6 +454,7 @@ const PlayerRanking = (playerRank) => {
         hasNegativeSamUpside: hasNegativeSamUpside.includes(playerName),
         myTargets: myTargets.includes(playerName),
         isOffDraftBoard: playersOffDraftBoard.includes(playerName),
+        isFantasyFooterballersMvp: fantasyFootballersMvps.includes(playerName),
     };
 };
 
