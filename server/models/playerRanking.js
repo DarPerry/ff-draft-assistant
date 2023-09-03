@@ -1,36 +1,43 @@
 import { stripLetters, stripNumbers } from "../util/stripText.js";
 
 const keepers = [
-    "Cooper Kupp",
-    "Patrick Mahomes II",
-    "DJ Moore",
-    "A.J. Brown",
-    "Josh Jacobs",
+    "AJ Brown",
     "Jalen Hurts",
-    "Amon-Ra St. Brown",
-    "DeVonta Smith",
-    "Kenneth Walker III",
-    "DeAndre Hopkins",
     "Justin Fields",
-    "Michael Thomas",
-    "Deebo Samuel",
-    "T.J. Hockenson",
+    "DeAndre Hopkins",
     "Jaylen Waddle",
     "Garrett Wilson",
     "Chris Olave",
-    "Miles Sanders",
     "Tony Pollard",
     "Christian Kirk",
-    "Mike Williams",
-    "Rhamondre Stevenson",
-    "Jared Goff",
-    "Khalil Herbert",
-    "Deshawn Watson",
     "Trevor Lawrence",
-    "Drake London",
+
+    "Deebo Samuel",
+    "Tee Higgins",
+
+    "Mike Williams",
+    "Miles Sanders",
+    "Khalil Herbert",
+
     "Dallas Goedert",
-    "Mark Andrews",
+    "Drake London",
     "Rachaad White",
+
+    "Deshaun Watson",
+    "Nick Chubb",
+    "Josh Jacobs",
+
+    "Mark Andrews",
+    "Rhamondre Stevenson",
+    "Dameon Pierce",
+
+    "Patrick Mahomes",
+    "Amon-Ra St. Brown",
+    "Kenneth Walker",
+
+    "Jared Goff",
+    "Cooper Kupp",
+    "DeVonta Smith",
 ];
 const potentialWrOnes = [
     "Justin Jefferson",
